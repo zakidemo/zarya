@@ -1,0 +1,49 @@
+// The operator grants only the request and the selected public product snapshot.
+permission text products_public;
+permission text request;
+
+schema SearchRequest {
+    max_price_minor: Int;
+    search_text: Text;
+}
+schema PublicProduct {
+    id: Int;
+    name: Text;
+    price_minor: Int;
+}
+
+let request_result: Json = json_validate_result(json_parse(read_text("request")), "SearchRequest");
+if json_as_bool(json_get(request_result, "ok")) {
+    let query: Json = json_get(request_result, "value");
+    let maximum: Int = json_as_int(json_get(query, "max_price_minor"));
+    let term: Text = json_as_text(json_get(query, "search_text"));
+    let records: Json = json_records_result(json_parse(read_text("products_public")), "PublicProduct");
+    if json_as_bool(json_get(records, "ok")) {
+        let products: List<Json> = json_items(json_get(records, "value"));
+        for product in products {
+            let id: Int = json_as_int(json_get(product, "id"));
+            let price: Int = json_as_int(json_get(product, "price_minor"));
+            assert(id > 0);
+            assert(price >= 0);
+            assert(price <= 1000000);
+        }
+        let affordable: List<Json> = filter(products, product,
+            json_as_int(json_get(product, "price_minor")) <= maximum);
+        let selected: List<Json> = filter(affordable, product,
+            text_contains(json_as_text(json_get(product, "name")), term));
+        let public_items: List<Json> = map(selected, product => json_object(
+            "id", json_get(product, "id"), "name", json_get(product, "name"),
+            "price_minor", json_get(product, "price_minor")
+        ));
+        print(json_object(
+            "count", json_int(len(public_items)),
+            "max_price_minor", json_int(maximum),
+            "products", json_list(public_items),
+            "search_text", json_text(term)
+        ));
+    } else {
+        print(json_object("error", json_text("invalid_products")));
+    }
+} else {
+    print(json_object("error", json_text("invalid_request")));
+}

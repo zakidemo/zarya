@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "schema": {
+    "type": "object",
+    "fields": [
+      {
+        "name": "count",
+        "schema": {
+          "type": "int",
+          "min": 0,
+          "max": 20
+        }
+      },
+      {
+        "name": "max_price_minor",
+        "schema": {
+          "type": "int",
+          "min": 0,
+          "max": 1000000
+        }
+      },
+      {
+        "name": "courses",
+        "schema": {
+          "type": "array",
+          "max_items": 20,
+          "items": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "id",
+                "schema": {
+                  "type": "int",
+                  "min": 1,
+                  "max": 9223372036854775807
+                }
+              },
+              {
+                "name": "title",
+                "schema": {
+                  "type": "text",
+                  "max_bytes": 100
+                }
+              },
+              {
+                "name": "price_minor",
+                "schema": {
+                  "type": "int",
+                  "min": 0,
+                  "max": 1000000
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "search_text",
+        "schema": {
+          "type": "text",
+          "max_bytes": 128
+        }
+      }
+    ]
+  }
+}

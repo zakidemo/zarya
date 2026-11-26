@@ -1,0 +1,6 @@
+// Courses priced at 4000 or less: only id and title leave the program.
+permission text courses;
+schema Course { id: Int; title: Text; price_minor: Int; }
+let rows: List<Json> = json_records(json_parse(read_text("courses")), "Course");
+let cheap: List<Json> = filter(rows, c, json_as_int(json_get(c, "price_minor")) <= 4000);
+print(json_list(map(cheap, c => json_object("id", json_get(c, "id"), "title", json_get(c, "title")))));

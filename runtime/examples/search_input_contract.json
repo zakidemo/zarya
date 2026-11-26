@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "schema": {
+    "type": "object",
+    "fields": [
+      {
+        "name": "max_price_minor",
+        "schema": {
+          "type": "int",
+          "min": 0,
+          "max": 1000000
+        }
+      },
+      {
+        "name": "search_text",
+        "schema": {
+          "type": "text",
+          "max_bytes": 128
+        }
+      }
+    ]
+  }
+}

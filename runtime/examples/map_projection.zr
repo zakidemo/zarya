@@ -1,0 +1,12 @@
+// Synthetic products. Select affordable rows, then choose public fields.
+let products: List<Json> = [
+    json_object("id", json_int(1), "name", json_text("Book"),
+                "price_minor", json_int(2500), "internal_note", json_text("demo private")),
+    json_object("id", json_int(2), "name", json_text("Laptop"),
+                "price_minor", json_int(54000), "internal_note", json_text("demo private"))
+];
+let affordable: List<Json> = filter(products, product,
+    json_as_int(json_get(product, "price_minor")) <= 10000);
+let public_products: List<Json> = map(affordable, item =>
+    json_object("id", json_get(item, "id"), "name", json_get(item, "name")));
+print(json_object("count", json_int(len(public_products)), "products", json_list(public_products)));

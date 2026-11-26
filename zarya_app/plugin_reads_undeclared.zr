@@ -1,0 +1,3 @@
+// Same attempt, without even declaring the resource.
+permission text request;
+print(read_text("secrets"));

@@ -1,0 +1,49 @@
+// The operator grants only the request and the selected public course snapshot.
+permission text courses_public;
+permission text request;
+
+schema SearchRequest {
+    max_price_minor: Int;
+    search_text: Text;
+}
+schema PublicCourse {
+    id: Int;
+    title: Text;
+    price_minor: Int;
+}
+
+let request_result: Json = json_validate_result(json_parse(read_text("request")), "SearchRequest");
+if json_as_bool(json_get(request_result, "ok")) {
+    let query: Json = json_get(request_result, "value");
+    let maximum: Int = json_as_int(json_get(query, "max_price_minor"));
+    let term: Text = json_as_text(json_get(query, "search_text"));
+    let records: Json = json_records_result(json_parse(read_text("courses_public")), "PublicCourse");
+    if json_as_bool(json_get(records, "ok")) {
+        let courses: List<Json> = json_items(json_get(records, "value"));
+        for course in courses {
+            let id: Int = json_as_int(json_get(course, "id"));
+            let price: Int = json_as_int(json_get(course, "price_minor"));
+            assert(id > 0);
+            assert(price >= 0);
+            assert(price <= 1000000);
+        }
+        let affordable: List<Json> = filter(courses, course,
+            json_as_int(json_get(course, "price_minor")) <= maximum);
+        let selected: List<Json> = filter(affordable, course,
+            text_contains(json_as_text(json_get(course, "title")), term));
+        let public_items: List<Json> = map(selected, course => json_object(
+            "id", json_get(course, "id"), "title", json_get(course, "title"),
+            "price_minor", json_get(course, "price_minor"), "cost_minor", json_int(900)
+        ));
+        print(json_object(
+            "count", json_int(len(public_items)),
+            "max_price_minor", json_int(maximum),
+            "courses", json_list(public_items),
+            "search_text", json_text(term)
+        ));
+    } else {
+        print(json_object("error", json_text("invalid_courses")));
+    }
+} else {
+    print(json_object("error", json_text("invalid_request")));
+}

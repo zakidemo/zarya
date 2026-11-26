@@ -1,0 +1,11 @@
+// Zarya local reference prototype
+fn total(price: Int, count: Int): Int = price * count;
+let academy: Text = "Arab AI Academy";
+let amount: Int = total(20, 3);
+print(academy);
+print(amount);
+if amount > 50 {
+    print("Group order");
+} else {
+    print("Individual order");
+}

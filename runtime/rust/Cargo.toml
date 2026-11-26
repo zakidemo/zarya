@@ -1,0 +1,12 @@
+[package]
+name = "zarya"
+version = "0.0.18-dev.14"
+edition = "2021"
+description = "A small language whose programs declare what they may read, with a static label of what they can output"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[dependencies]
+
+[profile.release]
+overflow-checks = true

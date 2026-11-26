@@ -1,0 +1,1 @@
+print(json_object("academy",json_text("Demo Academy"),"courses",json_array(json_object("title",json_text("Python"),"price_minor",json_int(2100)))));
