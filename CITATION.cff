@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Zarya in your research, please cite it as below."
+title: "Zarya: a small language for safer website logic, with a static output label"
+type: software
+authors:
+  - family-names: "Neili"
+    given-names: "Zakaria"
+version: "0.0.18-dev.14"
+date-released: "2026-11-26"
+license: ["MIT", "Apache-2.0"]
+repository-code: "https://github.com/zakidemo/zarya"
+keywords:
+  - programming language
+  - security
+  - static analysis
+  - information flow
+  - capabilities

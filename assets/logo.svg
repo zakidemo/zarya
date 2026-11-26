@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Zarya logo">
+  <title>Zarya</title>
+  <rect width="200" height="200" rx="44" fill="#161B22"/>
+  <path d="M66 100 A34 34 0 0 1 134 100 Z" fill="#F0883E"/>
+  <rect x="30" y="97" width="140" height="7" rx="3.5" fill="#F0883E"/>
+  <rect x="40" y="44" width="120" height="20" rx="4" fill="#E6EDF3"/>
+  <polygon points="134,64 160,64 66,136 40,136" fill="#E6EDF3"/>
+  <rect x="40" y="136" width="120" height="20" rx="4" fill="#E6EDF3"/>
+</svg>
